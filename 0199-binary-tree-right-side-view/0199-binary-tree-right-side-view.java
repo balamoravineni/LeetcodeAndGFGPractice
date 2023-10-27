@@ -16,6 +16,19 @@
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
+        // levelOrderTraversal(root, ans);
+        recursiveTraversal(root, ans, 0);
+        return ans;
+    }
+
+    void recursiveTraversal(TreeNode root, List<Integer> ans, int row) {
+        if(root==null) return;
+        if(row==ans.size()) ans.add(root.val);
+        recursiveTraversal(root.right, ans, row+1);
+        recursiveTraversal(root.left, ans, row+1);
+    }
+
+    void levelOrderTraversal(TreeNode root, List<Integer> ans) {
         Queue<TreeNode> queue = new LinkedList<>();
         if(root!=null) queue.add(root);
         while(!queue.isEmpty()) {
@@ -29,6 +42,5 @@ class Solution {
             }
             ans.add(temp);
         }
-        return ans;
     }
 }
