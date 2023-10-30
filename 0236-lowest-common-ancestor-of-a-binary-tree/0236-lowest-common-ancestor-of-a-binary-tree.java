@@ -18,18 +18,46 @@ class Node {
 
 class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // --> brute force
+        // // --> brute force
         // return traverse(root, p, q);
         
-        // --> constructing new tree - O(N)
-        Node newRoot = createNewTree(root, null, p, q);
-        // newP, newQ will exist
-        Set<Integer> pathP = new HashSet<>();
-        pathToRoot(newP, pathP);
-        Integer intersectionVal = pathToRootQ(newQ, pathP);
-        return getTreeNode(root, intersectionVal);
+        // // --> constructing new tree - O(N) time, extra space
+        // Node newRoot = createNewTree(root, null, p, q); // newP, newQ will exist
+        // Set<Integer> pathP = new HashSet<>();
+        // pathToRoot(newP, pathP);
+        // Integer intersectionVal = pathToRootQ(newQ, pathP);
+        // return getTreeNode(root, intersectionVal);
+
+
+        List<TreeNode> pathP = new ArrayList<>();
+        List<TreeNode> pathQ = new ArrayList<>();
+        findPath(root, p, pathP);
+        findPath(root, q, pathQ);
+        if(pathP.contains(q)) return q;
+        if(pathQ.contains(p)) return p;
+        int size = Math.min(pathP.size(), pathQ.size());
+        TreeNode ancestor = null;
+        // pathP.forEach( i -> System.out.print(i.val + " "));
+        // System.out.println();
+        // pathQ.forEach( i -> System.out.print(i.val + " "));
+        for(int i=0;i<size;i++) {
+            if(pathP.get(i)==pathQ.get(i)) ancestor = pathP.get(i);
+            else break;
+        }
+        return ancestor;
     }
 
+    boolean findPath(TreeNode root, TreeNode target, List<TreeNode> path) {
+        if(root==null) return false;
+        if(root==target) return true;
+        path.add(root);
+        if(findPath(root.left, target, path)) return true;
+        if(findPath(root.right, target, path)) return true;
+        path.remove(path.size()-1);
+        return false;
+    }
+
+    // constructing new tree - O(N) time, extra space
     Node newP, newQ;
 
     Node createNewTree(TreeNode root, Node parent, TreeNode p, TreeNode q) {
