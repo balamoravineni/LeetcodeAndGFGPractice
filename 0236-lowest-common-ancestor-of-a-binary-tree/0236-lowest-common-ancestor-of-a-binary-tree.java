@@ -28,7 +28,7 @@ class Solution {
         // Integer intersectionVal = pathToRootQ(newQ, pathP);
         // return getTreeNode(root, intersectionVal);
 
-
+        // --> finding Ancestor through Paths
         List<TreeNode> pathP = new ArrayList<>();
         List<TreeNode> pathQ = new ArrayList<>();
         findPath(root, p, pathP);
@@ -47,6 +47,7 @@ class Solution {
         return ancestor;
     }
 
+    // finding Ancestor through Paths
     boolean findPath(TreeNode root, TreeNode target, List<TreeNode> path) {
         if(root==null) return false;
         if(root==target) return true;
