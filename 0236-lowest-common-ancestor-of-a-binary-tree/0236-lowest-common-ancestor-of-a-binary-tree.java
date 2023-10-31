@@ -29,6 +29,26 @@ class Solution {
         // return getTreeNode(root, intersectionVal);
 
         // --> finding Ancestor through Paths
+        // return findLCA(root, p, q);
+
+        // recursive simple approach based on intuition
+        if(root==null || root==p || root==q) return root;
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if(left==null) {
+            return right;
+        }
+        else if (right==null) {
+            return left;
+        }
+        else {
+            return root;
+        }
+
+    }
+
+    // finding Ancestor through Paths
+    TreeNode findLCA(TreeNode root, TreeNode p, TreeNode q) {
         List<TreeNode> pathP = new ArrayList<>();
         List<TreeNode> pathQ = new ArrayList<>();
         findPath(root, p, pathP);
@@ -46,8 +66,6 @@ class Solution {
         }
         return ancestor;
     }
-
-    // finding Ancestor through Paths
     boolean findPath(TreeNode root, TreeNode target, List<TreeNode> path) {
         if(root==null) return false;
         if(root==target) return true;
