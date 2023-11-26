@@ -1,5 +1,11 @@
 /*package whatever //do not write package name here */
 
+/*
+Problem Link: https://takeuforward.org/data-structure/check-for-children-sum-property-in-a-binary-tree/
+Write a program that converts any binary tree to one that follows the children sum property.
+The children sum property is defined as, For every node of the tree, the value of a node is equal to the sum of values of its children(left child and right child).
+*/
+
 import java.io.*;
 import java.util.*;
 
