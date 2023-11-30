@@ -15,17 +15,27 @@
  */
 class Solution {
     public int countNodes(TreeNode root) {
-        Queue<TreeNode> queue = new LinkedList<>();
-        if(root!=null) queue.add(root);
-        int ans = 0;
-        while(!queue.isEmpty()) {
-            TreeNode current = queue.remove();
-            ans++;
-            if(current.left!=null) queue.add(current.left);
-            else break;
-            if(current.right!=null) queue.add(current.right);
-            else break;
+        int height = isFullBinaryTree(root);
+        if(height!=-1) return (int)Math.pow(2, height)-1;
+        int left = countNodes(root.left);
+        int right = countNodes(root.right);
+        return 1 + left + right;
+    }
+    
+    int isFullBinaryTree(TreeNode root) {
+        if(root==null) return 0;
+        int leftH = 0, rightH = 0;
+        TreeNode current = root;
+        while(current!=null) {
+            leftH++;
+            current = current.left;
         }
-        return ans + queue.size();
+        current = root;
+        while(current!=null) {
+            rightH++;
+            current = current.right;
+        }
+        if(leftH==rightH) return leftH;
+        return -1;
     }
 }
