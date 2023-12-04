@@ -14,7 +14,12 @@
  * }
  */
 class Solution {
+    
+    Map<Integer,Integer> inorderMap = new HashMap<>();
+
     public TreeNode buildTree(int[] preorder, int[] inorder) {
+        // optimizing inorder Index fetching with map
+        for(int i=0;i<inorder.length;i++) inorderMap.put(inorder[i], i);
         return buildTreeHelper(preorder, inorder, 0, preorder.length-1, 0, inorder.length-1);
         // if(preorder.length==0) return null;
         // int current = preorder[0];
@@ -31,13 +36,15 @@ class Solution {
         int current = preorder[preStart];
         TreeNode root = new TreeNode(current);
         if(preEnd==preStart) return root;
-        int currentInorderIndex = findIndexHelper(current, inorder, inStart, inEnd);
+        int currentInorderIndex = inorderMap.get(current);
+        // int currentInorderIndex = findIndexHelper(current, inorder, inStart, inEnd);
         int lenLeftTree = currentInorderIndex-inStart;
         root.left = buildTreeHelper(preorder, inorder, preStart+1, preStart+lenLeftTree, inStart, currentInorderIndex-1);
         root.right = buildTreeHelper(preorder, inorder, preStart+lenLeftTree+1, preEnd, currentInorderIndex+1, inEnd);
         return root;
     }
 
+    // optimized with Map.
     int findIndexHelper(int current, int[] inorder, int inStart, int inEnd) {
         for(int i=inStart;i<=inEnd; i++) {
             if(inorder[i]==current) return i;
