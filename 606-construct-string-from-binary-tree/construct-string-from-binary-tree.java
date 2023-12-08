@@ -19,12 +19,8 @@ class Solution {
         String left = tree2str(root.left);
         String right = tree2str(root.right);
         StringBuilder ans = new StringBuilder(Integer.toString(root.val));
-        if(left!=null && right!=null) {
-            ans.append("(").append(left).append(")");
-            ans.append("(").append(right).append(")");
-        } 
-        else if(left==null && right!=null) {
-            ans.append("()");
+        if(right!=null) {
+            ans.append("(").append(left==null?"":left).append(")");
             ans.append("(").append(right).append(")");
         }
         else if(left!=null && right==null) {
