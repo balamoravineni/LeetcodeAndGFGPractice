@@ -33,11 +33,9 @@ public class Solution {
 
         // Write your code here
         int ans = -1;
-        Integer diff = Integer.MAX_VALUE;
-        while(node!=null) {
-            if(node.data>=x && node.data-x<diff) {
+        while(node!=null) { 
+            if(node.data>=x) {
                 ans = node.data;
-                diff = node.data-x;
             }
             if(node.data==x) break;
             else if(node.data>x) node = node.left;
