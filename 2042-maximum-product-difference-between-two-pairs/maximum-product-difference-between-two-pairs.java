@@ -26,7 +26,7 @@ class Solution {
                 second_smallest = nums[i];
             }
         }
-        System.out.println(largest + " " + second_largest + " " + smallest + " " + second_smallest);
+        // System.out.println(largest + " " + second_largest + " " + smallest + " " + second_smallest);
         return (largest*second_largest) - (smallest*second_smallest);
     }
 }
