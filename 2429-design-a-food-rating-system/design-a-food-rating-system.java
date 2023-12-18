@@ -32,13 +32,17 @@ class FoodRatings {
         String cuisine = foodCuisineMap.get(food);
         int rating = foodRatingsMap.get(food);
         if(cuisine!=null) {
-            cuisineMap.get(cuisine).remove(new Food(food, rating));
             cuisineMap.get(cuisine).add(new Food(food, newRating));
             foodRatingsMap.put(food,newRating);
         }
     }
     
     public String highestRated(String cuisine) {
+        Food temp = cuisineMap.get(cuisine).first();
+        while(temp.rating!=foodRatingsMap.get(temp.name)) {
+            cuisineMap.get(cuisine).pollFirst();
+            temp =  cuisineMap.get(cuisine).first();
+        }
         return cuisineMap.get(cuisine).first().name;
     }
 }
