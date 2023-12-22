@@ -1,5 +1,30 @@
 class Solution {
     public int maxScore(String s) {
+        // return twoPass(s);
+        return onePass(s);
+    }
+
+    int onePass(String s) {
+        // score = ZeroL + oneR = oneT + (ZeroL - oneL) -> maximize
+        int max = Integer.MIN_VALUE;
+        int oneT=0, zeroL=0, oneL=0;
+        for(int i=0;i<s.length()-1;i++) {
+            if(s.charAt(i)=='1') {
+                oneT++;
+                oneL++;
+            }
+            else {
+                zeroL++;
+            }
+            max = Math.max(max, zeroL-oneL);
+        }
+        if(s.charAt(s.length()-1)=='1') {
+            oneT++;
+        }
+        return oneT + max;
+    }
+
+    int twoPass(String s) {
         int num0 = 0;
         int num1 = countChar(s, '1');
         int ans = 0;
