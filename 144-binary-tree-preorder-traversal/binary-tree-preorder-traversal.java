@@ -23,20 +23,22 @@ class Solution {
         List<Integer> ans = new ArrayList<>();
         TreeNode current = root;
         while(current!=null) {
-            // System.out.print(current.val + " ");
             if(current.left==null) {
                 ans.add(current.val);
                 current = current.right;
                 continue;
             }
             else {
-                if(checkIfThreadExistsOrAdd(current)) {
-                    // System.out.print(current.val + " ");
-                    current = current.right;
+                TreeNode temp = current.left;
+                while(temp.right!=null && temp.right!=current) temp = temp.right;
+                if(temp.right==null) {
+                    ans.add(current.val);
+                    temp.right = current;
+                    current = current.left;
                 }
                 else {
-                    ans.add(current.val);
-                    current = current.left;
+                    temp.right = null;
+                    current = current.right;
                 }
             }
         }
