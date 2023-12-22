@@ -19,15 +19,39 @@ class Solution {
     int ans = -1;
     public int kthSmallest(TreeNode root, int k) {
         // return usingList(root, k);
-        constantSpace(root,k);
-        return ans;
+        // constantSpaceButRecursive(root,k);
+        // return ans;
+        return morrisInorder(root,k);
     }
 
-    void constantSpace(TreeNode root, int k) {
+    int morrisInorder(TreeNode root, int k) {
+        while(root!=null) {
+            if(root.left==null) {
+                if(++count==k) return root.val;
+                root = root.right;
+            }
+            else {
+                TreeNode temp = root.left;
+                while(temp.right!=null && temp.right!=root) temp = temp.right;
+                if(temp.right==null) {
+                    temp.right = root;
+                    root = root.left;
+                }
+                else {
+                    if(++count==k) return root.val;
+                    temp.right = null;
+                    root = root.right;
+                }
+            }
+        }
+        return -1;
+    }
+
+    void constantSpaceButRecursive(TreeNode root, int k) {
         if(root==null) return;
-        constantSpace(root.left,k);
+        constantSpaceButRecursive(root.left,k);
         if(++count==k) ans = root.val;
-        constantSpace(root.right,k);
+        constantSpaceButRecursive(root.right,k);
     }
 
     int usingList(TreeNode root, int k) {
