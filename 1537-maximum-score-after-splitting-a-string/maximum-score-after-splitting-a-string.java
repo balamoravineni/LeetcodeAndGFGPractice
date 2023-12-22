@@ -1,10 +1,10 @@
 class Solution {
     public int maxScore(String s) {
-        int num0 = countChar(s.substring(0,1), '0');
-        int num1 = countChar(s.substring(1,s.length()), '1');
-        int ans = num0 + num1;
+        int num0 = 0;
+        int num1 = countChar(s, '1');
+        int ans = 0;
         // System.out.println(num0 + " " + num1);
-        for(int i=1;i<s.length()-1;i++) {
+        for(int i=0;i<s.length()-1;i++) {
             if(s.charAt(i)=='0') {
                 num0++;
             }
