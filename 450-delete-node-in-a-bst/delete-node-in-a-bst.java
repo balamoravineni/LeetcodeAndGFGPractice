@@ -14,8 +14,48 @@
  * }
  */
 class Solution {
-    TreeNode newRoot;
     public TreeNode deleteNode(TreeNode root, int key) {
+        // return recursive(root, key);
+        TreeNode parent = null;
+        TreeNode current = root;
+        while(current!=null && current.val!=key) {
+            parent = current;
+            if(current.val>key) current = current.left;
+            else current = current.right;
+        }
+        if(current==null) return root;
+        if(current.left==null) {
+            if(parent!=null && parent.left==current) parent.left = current.right;
+            else if(parent!=null && parent.right==current) parent.right = current.right;
+            else root = current.right;
+        }
+        else if(current.right==null) {
+            if(parent!=null && parent.left==current) parent.left = current.left;
+            else if(parent!=null && parent.right==current) parent.right = current.left;
+            else root = current.left;
+        }
+        else {
+            //findMin of current.right
+            TreeNode tempParent = current;
+            TreeNode temp = current.right;
+            while(temp.left!=null) {
+                tempParent = temp;
+                temp = temp.left;
+            }
+            if(tempParent!=current) {
+                tempParent.left = temp.right;
+                temp.right = current.right;
+            }
+            temp.left = current.left;
+            if(parent!=null && parent.left==current) parent.left = temp;
+            else if(parent!=null && parent.right==current) parent.right = temp;
+            else root = temp;
+        }
+        return root;
+    }
+
+    TreeNode newRoot;
+    TreeNode recursive(TreeNode root, int key) {
         if(root==null) return null;
         deleteNodeHelper(root, null, key);
         return newRoot;
