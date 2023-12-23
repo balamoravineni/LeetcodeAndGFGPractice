@@ -16,7 +16,16 @@
 class Solution {
     public TreeNode bstFromPreorder(int[] preorder) {
         // return recursiveHelper(preorder, 0, preorder.length-1);
-        return iterative(preorder);
+        // return iterative(preorder);
+        return recursiveOptimised(preorder, Integer.MAX_VALUE, new int[1]);
+    }
+
+    TreeNode recursiveOptimised(int[] preorder, int bound, int[] start) {
+        if(start[0]>=preorder.length || preorder[start[0]]>bound) return null;
+        TreeNode root = new TreeNode(preorder[start[0]++]);
+        root.left = recursiveOptimised(preorder, root.val, start);
+        root.right = recursiveOptimised(preorder, bound, start);
+        return root;
     }
 
     TreeNode iterative(int[] preorder) {
