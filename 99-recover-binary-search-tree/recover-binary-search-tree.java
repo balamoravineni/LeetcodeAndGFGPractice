@@ -16,7 +16,29 @@
 class Solution {
     public void recoverTree(TreeNode root) {
         // usingExtraSpace(root);
-        while(inorderSort(root, null, null));
+        // while(inorderSort(root, null, null));
+        optimisedInorder(root);
+        swap(firstV, secondV);
+    }
+
+    TreeNode prev=null, firstV=null, secondV=null;
+    void optimisedInorder(TreeNode root) {
+        if(root==null) return;
+        optimisedInorder(root.left);
+        if(prev!=null && prev.val>root.val) {
+            if(firstV==null) {
+                firstV = prev;
+            }
+            secondV = root;
+        }
+        prev = root;
+        optimisedInorder(root.right);
+    }
+
+    void swap(TreeNode t1, TreeNode t2) {
+        int temp = t1.val;
+        t1.val = t2.val;
+        t2.val = temp;
     }
 
     boolean inorderSort(TreeNode root, TreeNode min, TreeNode max) {
@@ -40,12 +62,6 @@ class Solution {
         boolean left = inorderSort(root.left, min, root);
         boolean right = inorderSort(root.right, root, max);
         return left || right;
-    }
-
-    void swap(TreeNode t1, TreeNode t2) {
-        int temp = t1.val;
-        t1.val = t2.val;
-        t2.val = temp;
     }
 
     List<Integer> ans = new ArrayList<>();
