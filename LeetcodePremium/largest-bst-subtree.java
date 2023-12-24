@@ -1,6 +1,6 @@
 /*
   Leetcode link: https://leetcode.com/problems/largest-bst-subtree/
-  youtube link: https://leetcode.com/problems/largest-bst-subtree/
+  youtube link: https://www.youtube.com/watch?v=X0oXMdtUDwo
 */
 
 /*package whatever //do not write package name here */
