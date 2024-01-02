@@ -1,8 +1,25 @@
 class Solution {
     public List<List<Integer>> findMatrix(int[] nums) {
         // return sortingWay(nums);
-        return usingMap(nums);
+        // return usingMap(nums);
+        return usingArrayFreqCounterItself(nums);
     }   
+
+    List<List<Integer>> usingArrayFreqCounterItself(int[] nums) {
+        int[] freq = new int[nums.length+1];
+        int highFreq = 1;
+        for(int temp: nums) {
+            freq[temp]++;
+            highFreq = Math.max(highFreq, freq[temp]);
+        }
+        List<List<Integer>> ans = new ArrayList<>();
+        for(int i=0;i<highFreq;i++) ans.add(new ArrayList<>());
+        for(int key=0;key<freq.length;key++) {
+            int f = freq[key];
+            while(--f>=0) ans.get(f).add(key);
+        }
+        return ans;
+    }
 
     List<List<Integer>> usingMap(int[] nums) {
         Map<Integer,Integer> map = new HashMap<>();
@@ -14,7 +31,7 @@ class Solution {
                 highFreq = Math.max(highFreq, map.get(temp));
             }
         }
-        System.out.println(map + " " + highFreq);
+        // System.out.println(map + " " + highFreq);
         List<List<Integer>> ans = new ArrayList<>();
         for(int i=0;i<highFreq;i++) ans.add(new ArrayList<>());
         for(int key: map.keySet()) {
