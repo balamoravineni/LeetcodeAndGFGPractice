@@ -18,26 +18,24 @@ public class Solution
         for(int i=0;i<e;i++) {
             adjList.get(edges[i][0]).add(edges[i][1]);
         }
-        boolean[] visited = new boolean[v];
-        boolean[] pathVisited = new boolean[v];
+        int[] visited = new int[v];
         for(int i=0;i<v;i++) {
-            if(!visited[i]) {
-                if(dfs(adjList,i,visited, pathVisited)) return true;
+            if(visited[i]==0) {
+                if(dfs(adjList,i,visited)) return true;
             }
         }
         return false;
 	}
 
-    static Boolean dfs(List<List<Integer>> adjList, int index, boolean[] visited, boolean[] pathVisited) {
-        visited[index]=true;
-        pathVisited[index]=true;
+    static Boolean dfs(List<List<Integer>> adjList, int index, int[] visited) {
+        visited[index]=2;
         for(int temp: adjList.get(index)) {
-            if(pathVisited[temp]) return true;
-            if(!visited[temp]) {
-                if(dfs(adjList,temp,visited, pathVisited)) return true;
+            if(visited[temp]==2) return true;
+            if(visited[temp]==0) {
+                if(dfs(adjList,temp,visited)) return true;
             }
         }
-        pathVisited[index] = false;
+        visited[index] = 1;
         return false;
     }
 
