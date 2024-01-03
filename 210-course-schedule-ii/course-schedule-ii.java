@@ -9,27 +9,27 @@ class Solution {
             adjList.get(prerequisites[i][0]).add(prerequisites[i][1]);
         }
         int[] visited = new int[numCourses];
-        Deque<Integer> stack = new ArrayDeque<>();
+        int[] ans = new int[numCourses];
+        int[] ansIndex = new int[1];
+        // Deque<Integer> stack = new ArrayDeque<>();
         for(int i=0;i<numCourses;i++) {
             if(visited[i]==0) {
-                if(isCyclicDFS(adjList,i,visited, stack)) return new int[0];
+                if(isCyclicDFS(adjList,i,visited, ans, ansIndex)) return new int[0];
             }
         }
-        int[] ans = new int[numCourses];
-        int i=0;
-        while(!stack.isEmpty()) ans[i++] = stack.pop();
+        // while(!stack.isEmpty()) ans[i++] = stack.pop();
         return ans;
     }
 
-    boolean isCyclicDFS(List<List<Integer>> adjList, int index, int[] visited, Deque<Integer> stack) {
+    boolean isCyclicDFS(List<List<Integer>> adjList, int index, int[] visited, int[] ans, int[] ansIndex) {
         visited[index]=2;
         for(int temp: adjList.get(index)) {
             if(visited[temp]==2) return true;
             if(visited[temp]==0) {
-                if(isCyclicDFS(adjList,temp,visited, stack)) return true;
+                if(isCyclicDFS(adjList,temp,visited, ans, ansIndex)) return true;
             }
         }
-        stack.add(index);
+        ans[ansIndex[0]++]=index;
         visited[index]=1;
         return false;
     }
