@@ -13,8 +13,8 @@ class Solution {
 
     int countDevices(String str) {
         int ans = 0;
-        for(char ch: str.toCharArray()) {
-            if(ch=='1') ans++;
+        for(int i=0;i<str.length();i++) {
+            if(str.charAt(i)=='1') ans++;
         }
         return ans;
     }
