@@ -21,22 +21,22 @@ public class Solution
         boolean[] visited = new boolean[v];
         for(int i=0;i<v;i++) {
             if(!visited[i]) {
-                if(dfs(adjList,i,visited, new HashSet<>())) return true;
+                if(dfs(adjList,i,visited, new boolean[v])) return true;
             }
         }
         return false;
 	}
 
-    static Boolean dfs(List<List<Integer>> adjList, int index, boolean[] visited, Set<Integer> parents) {
+    static Boolean dfs(List<List<Integer>> adjList, int index, boolean[] visited, boolean[] pathVisited) {
         visited[index]=true;
-        parents.add(index);
+        pathVisited[index]=true;
         for(int temp: adjList.get(index)) {
-            if(parents.contains(temp)) return true;
-            if(!visited[temp]) {
-                if(dfs(adjList,temp,visited, parents)) return true;
+            if(pathVisited[temp]) return true;
+            if(!pathVisited[temp]) {
+                if(dfs(adjList,temp,visited, pathVisited)) return true;
             }
         }
-        parents.remove(index);
+        pathVisited[index] = false;
         return false;
     }
 
