@@ -19,9 +19,10 @@ public class Solution
             adjList.get(edges[i][0]).add(edges[i][1]);
         }
         boolean[] visited = new boolean[v];
+        boolean[] pathVisited = new boolean[v];
         for(int i=0;i<v;i++) {
             if(!visited[i]) {
-                if(dfs(adjList,i,visited, new boolean[v])) return true;
+                if(dfs(adjList,i,visited, pathVisited)) return true;
             }
         }
         return false;
@@ -32,7 +33,7 @@ public class Solution
         pathVisited[index]=true;
         for(int temp: adjList.get(index)) {
             if(pathVisited[temp]) return true;
-            if(!pathVisited[temp]) {
+            if(!visited[temp]) {
                 if(dfs(adjList,temp,visited, pathVisited)) return true;
             }
         }
