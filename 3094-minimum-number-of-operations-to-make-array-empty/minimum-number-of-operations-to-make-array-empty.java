@@ -1,5 +1,27 @@
 class Solution {
     public int minOperations(int[] nums) {
+        // return sortingAndIteration(nums);
+        return usingMapAndCounting(nums);
+    }
+
+    int usingMapAndCounting(int[] nums) {
+        Map<Integer,Integer> freq = new HashMap<>();
+        for(int temp: nums) {
+            if(freq.get(temp)==null) freq.put(temp, 1);
+            else freq.put(temp, freq.get(temp)+1);
+        }
+        int ans = 0;
+        for(int key: freq.keySet()) {
+            if(freq.get(key)==1) return -1;
+            else {
+                // System.out.println(key + " " + freq.get(key) + "; " + Math.ceil((double)freq.get(key)/3));
+                ans += (int)Math.ceil((double)freq.get(key)/3);
+            }
+        }
+        return ans;
+    }
+
+    int sortingAndIteration(int[] nums) {
         Arrays.sort(nums);
         int i=0;
         int ans = 0;
