@@ -15,7 +15,7 @@ class Solution {
             if(freq.get(key)==1) return -1;
             else {
                 // System.out.println(key + " " + freq.get(key) + "; " + Math.ceil((double)freq.get(key)/3));
-                ans += (int)Math.ceil((double)freq.get(key)/3);
+                ans += Math.ceil((double)freq.get(key)/3);
             }
         }
         return ans;
