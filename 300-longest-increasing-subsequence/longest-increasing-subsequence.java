@@ -1,7 +1,7 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         return usingDP(nums);
-        // return usingSorting(nums); // giving result as wrong answer for now
+        // return UsingBinarySearch(nums); // ? need to learn this
     }
  
     int usingDP(int[] nums) {
@@ -22,30 +22,4 @@ class Solution {
         return dp[index][prevIndex+1] = Math.max(take, notTake);
     }
 
-        int usingSorting(int[] nums) {
-        List<Pair<Integer,Integer>> input = new ArrayList<>();
-        for(int i=0;i<nums.length;i++) {
-            input.add(new Pair(nums[i],i));
-        }
-        Collections.sort(input, (p1,p2) -> p1.getKey()==p2.getKey()?p1.getValue()-p2.getValue():p1.getKey()-p2.getKey());
-        int prevKey = Integer.MIN_VALUE;
-        int prevIndex = -1;
-        int i=0, ans = 0;
-        while(i<input.size()) {
-            int tempKey = input.get(i).getKey();
-            int tempIndex = -1;
-            while(i<input.size() && input.get(i).getKey()==tempKey) {
-                if(input.get(i).getValue()>prevIndex) {
-                    tempIndex = input.get(i).getValue();
-                    ans++;
-                    break;
-                }
-                i++;
-            }
-            while(i<input.size() && input.get(i).getKey()==tempKey) i++;
-            if(tempIndex!=-1) prevIndex = tempIndex;
-            prevKey = tempKey;
-        }
-        return ans;
-    }
 }
