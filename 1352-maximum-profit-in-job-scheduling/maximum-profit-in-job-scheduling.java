@@ -21,18 +21,16 @@ class Solution {
         if(i==input.size()) return 0;
         if(dp[i]!=-1) return dp[i];
         int notTakeJob = 0 + recursiveHelper(input, i+1, dp);
-        int nextIndex = binarySearchStartTime(input, input.get(i).endTime, i+1);
+        int nextIndex = binarySearchStartTimeLowerBound(input, input.get(i).endTime, i+1);
         int takeJob = input.get(i).profit + recursiveHelper(input, nextIndex, dp);
         return dp[i] = Math.max(notTakeJob, takeJob);
     }
 
-    int binarySearchStartTime(List<Triplet> input, int time, int start) {
+    int binarySearchStartTimeLowerBound(List<Triplet> input, int time, int start) {
         int end = input.size()-1;
         while(start<=end) {
             int mid = (start+end)/2;
             if(input.get(mid).startTime<time) start = mid+1;
-            // else if(input.get(mid).startTime>time) end = mid-1;
-            // else return mid;
             else end = mid-1;
         }
         return start;
