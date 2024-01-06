@@ -1,7 +1,7 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
         return usingDP(nums);
-        // return UsingBinarySearch(nums); // ? need to learn this
+        // return usingBinarySearchAndDP(nums); // need to learn
     }
  
     int usingDP(int[] nums) {
@@ -21,5 +21,4 @@ class Solution {
         int notTake = 0 + recursiveHelper(nums, index+1, prevIndex, dp);
         return dp[index][prevIndex+1] = Math.max(take, notTake);
     }
-
 }
