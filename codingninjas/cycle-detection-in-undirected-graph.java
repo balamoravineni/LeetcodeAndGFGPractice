@@ -7,6 +7,7 @@
 */
 
 import java.util.*;
+import javafx.util.Pair;
 public class Solution {
     
     public static String cycleDetection(int[][] edges, int n, int m) {
@@ -17,18 +18,35 @@ public class Solution {
             adjList.get(edges[i][0]-1).add(edges[i][1]-1);
             adjList.get(edges[i][1]-1).add(edges[i][0]-1);
         }
-        int[] visited = new int[n];
+        boolean[] visited = new boolean[n];
         for(int i=0;i<n;i++) {
-            if(visited[i]==0 && dfsIsCycle(adjList, visited, i, -1)) return "Yes";
+            // if(!visited[i] && dfsIsCycle(adjList, visited, i, -1)) return "Yes";
+            if(!visited[i] && bfsIsCycle(adjList, visited, i)) return "Yes";
         }
         return "No";
     }
 
-    static boolean dfsIsCycle(List<List<Integer>> adjList, int[] visited, int index, int parent) {
-        visited[index] = 1;
+    static boolean bfsIsCycle(List<List<Integer>> adjList, boolean[] visited, int index) {
+        Queue<Pair<Integer,Integer>> queue = new LinkedList<>();
+        queue.add(new Pair(index,-1));
+        while(!queue.isEmpty()) {
+            Pair<Integer,Integer> curr = queue.remove();
+            visited[curr.getKey()] = true;
+            for(int temp: adjList.get(curr.getKey())) {
+                if(temp!=curr.getValue() && visited[temp]) return true;
+                if(!visited[temp]) {
+                    queue.add(new Pair(temp, curr.getKey()));
+                }
+            }
+        }
+        return false;
+    }
+
+    static boolean dfsIsCycle(List<List<Integer>> adjList, boolean[] visited, int index, int parent) {
+        visited[index] = true;
         for(int temp: adjList.get(index)) {
-            if(temp!=parent && visited[temp]==1) return true;
-            if(visited[temp]==0 && dfsIsCycle(adjList, visited, temp, index)) return true;
+            if(temp!=parent && visited[temp]) return true;
+            if(!visited[temp] && dfsIsCycle(adjList, visited, temp, index)) return true;
         }
         return false;
     }
