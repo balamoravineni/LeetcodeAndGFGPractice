@@ -10,8 +10,8 @@ import java.util.*;
 public class Solution {
     public static int[] shortestPath(int n, int [][]edges, int src) {
         // Write your code here.
-        int[] ans = new int[n];
-        Arrays.fill(ans, -1);
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
         List<List<Integer>> adjList = new ArrayList<>();
         for(int i=0;i<n;i++) adjList.add(new ArrayList<>());
         for(int i=0;i<edges.length;i++) {
@@ -21,22 +21,20 @@ public class Solution {
         boolean[] visited = new boolean[n];
         Queue<Integer> queue = new LinkedList<>();
         queue.add(src);
-        visited[src] = true;
-        int level = 0;
+        dist[src] = 0;
         while(!queue.isEmpty()) {
             int size = queue.size();
             while(size-->0) {
                 int curr = queue.remove();
-                ans[curr] = level;
                 for(int temp:adjList.get(curr)) {
-                    if(!visited[temp]) {
+                    if(dist[curr]+1<dist[temp]) {
+                        dist[temp] = dist[curr]+1;
                         queue.add(temp);
-                        visited[temp] = true;
                     }
                 }
             }
-            level++;
         }
-        return ans;
+        for(int i=0;i<n;i++) if(dist[i]==Integer.MAX_VALUE) dist[i]=-1;
+        return dist;
     }
 }
