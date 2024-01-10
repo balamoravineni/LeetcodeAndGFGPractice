@@ -1,7 +1,21 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        return usingDP(nums);
-        // return usingBinarySearchAndDP(nums); // need to learn
+        // return usingDP(nums);
+        return usingBinarySearch(nums);
+    }
+
+    int usingBinarySearch(int[] nums) {
+        int ans = 0;
+        int[] reqSeq = new int[nums.length];
+        for(int temp: nums) {
+            int index = Arrays.binarySearch(reqSeq, 0, ans, temp);
+            // if index is negative, the abs value-1 is the actual index where the temp can be inserted to maintain sorted arr
+            if(index<0) {
+                reqSeq[-(index+1)] = temp;
+                if(ans==-(index+1)) ans++;
+            }
+        }
+        return ans;
     }
  
     int usingDP(int[] nums) {
