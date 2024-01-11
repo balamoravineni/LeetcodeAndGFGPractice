@@ -10,6 +10,9 @@
 import java.util.*;
 import javafx.util.Pair;
 public class Solution {
+    // To find the shortest path between given src & dest, maintain parent array initialized to index values, & update the parent anytime dist is updated. 
+    // In the end, Traverse back from the dest to src using while loop & add the nodes to a list.
+    // Finally, reverse the above list to get one of the shortest paths possible between given src & dest.
     public static List<Integer> dijkstra(int[][] edge,int vertices, int edges,int source){
         // Write your code here.
         int n = vertices;
