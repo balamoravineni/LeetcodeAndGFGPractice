@@ -22,17 +22,19 @@ public class Solution {
         }
         int[] dist = new int[n];
         Arrays.fill(dist, Integer.MAX_VALUE);
-        Queue<Integer> queue = new LinkedList<>();
-        queue.add(source);
+        PriorityQueue<Pair<Integer, Integer>> pq = new PriorityQueue<>((p1,p2) -> p1.getKey()-p2.getKey());
+        pq.add(new Pair(0, source));
         dist[source] = 0;
-        while(!queue.isEmpty()) {
-            int curr = queue.remove();
-            for(Pair<Integer,Integer> temp: adjList.get(curr)) {
-                int next = temp.getKey();
-                int weight = temp.getValue();
-                if(dist[next]>dist[curr]+weight) {
-                    dist[next] = dist[curr]+weight;
-                    queue.add(next);
+        while(!pq.isEmpty()) {
+            Pair<Integer, Integer> curr = pq.remove();
+            int currWeight = curr.getKey();
+            int currNode = curr.getValue();
+            for(Pair<Integer,Integer> temp: adjList.get(currNode)) {
+                int nextNode = temp.getKey();
+                int nextWeight = temp.getValue();
+                if(dist[nextNode]>currWeight+nextWeight) {
+                    dist[nextNode] = currWeight+nextWeight;
+                    pq.add(new Pair(dist[nextNode], nextNode));
                 }
             }
         }
