@@ -6,6 +6,18 @@ class Solution {
             sCount[s.charAt(i)-'a']++;
             tCount[t.charAt(i)-'a']++;
         }
+        return initialAnswer(sCount, tCount);
+    }
+
+    int optimised(int[] sCount, int[] tCount) {
+        int diff = 0;
+        for(int i=0;i<26;i++) {
+            diff += Math.abs(sCount[i]-tCount[i]);
+        }
+        return diff/2;
+    }
+
+    int initialAnswer(int[] sCount, int[] tCount) {
         int ans = 0;
         for(int i=0;i<26;i++) {
             if(sCount[i]==tCount[i]) continue;
