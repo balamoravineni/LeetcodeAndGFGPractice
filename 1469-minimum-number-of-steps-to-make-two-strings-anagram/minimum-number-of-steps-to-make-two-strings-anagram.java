@@ -6,7 +6,8 @@ class Solution {
             sCount[s.charAt(i)-'a']++;
             tCount[t.charAt(i)-'a']++;
         }
-        return initialAnswer(sCount, tCount);
+        // return initialAnswer(sCount, tCount);
+        return optimised(sCount, tCount);
     }
 
     int optimised(int[] sCount, int[] tCount) {
