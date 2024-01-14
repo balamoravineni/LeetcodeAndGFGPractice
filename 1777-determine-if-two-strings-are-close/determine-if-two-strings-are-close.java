@@ -14,11 +14,15 @@ class Solution {
             if((count1[i]!=0 && count2[i]==0) || (count1[i]==0 && count2[i]!=0)) return false;
         }
         if(sameChars) return true;
-        int[] freq = new int[n+1];
-
-        for(int temp: count1) if(temp!=0) freq[temp]++;
-        for(int temp: count2) if(temp!=0) freq[temp]--;
-        for(int temp: freq) if(temp!=0) return false;
+        Arrays.sort(count1);
+        Arrays.sort(count2);
+        for(int i=0;i<26;i++) {
+            if(count1[i]!=count2[i]) return false;
+        }
+        // int[] freq = new int[n+1];
+        // for(int temp: count1) if(temp!=0) freq[temp]++;
+        // for(int temp: count2) if(temp!=0) freq[temp]--;
+        // for(int temp: freq) if(temp!=0) return false;
         return true;
     }
 }
