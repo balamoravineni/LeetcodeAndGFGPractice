@@ -1,5 +1,5 @@
 /*
-  Implementing Disjoint Set by Union Rank & Path Compression
+  Implementing Disjoint Set by Union Rank/ Union Size & Path Compression
   only Union / findUParent may take O(log N) time, but because of path compression it takes constant time
   Time complexity: O(4*alpha) ~ O(constant) since alpha is near about 1. derivation is out of scope 
 */
@@ -14,11 +14,13 @@ class DisjointSet {
     
     List<Integer> parents = new ArrayList<>();
     List<Integer> ranks = new ArrayList<>();
+    List<Integer> sizes = new ArrayList<>();
     
     DisjointSet(int n) {
         for(int i=0;i<=n;i++) {
             parents.add(i);
             ranks.add(0);
+            sizes.add(1);
         }
     }
     
@@ -45,9 +47,28 @@ class DisjointSet {
             ranks.set(ul_par2, ranks.get(ul_par2)+1);
         }
     }
+    
+    public void unionBySize(int node1, int node2) {
+        int ul_par1 = findUParent(node1);
+        int ul_par2 = findUParent(node2);
+        if(ul_par1==ul_par2) return;
+        if(sizes.get(ul_par1)>sizes.get(ul_par2)) {
+            parents.set(ul_par2, ul_par1);
+            sizes.set(ul_par1, sizes.get(ul_par2)+sizes.get(ul_par1));
+        }
+        else if(sizes.get(ul_par1)<sizes.get(ul_par2)) {
+            parents.set(ul_par1, ul_par2);
+            sizes.set(ul_par2, sizes.get(ul_par2)+sizes.get(ul_par1));
+        }
+        else { // sizes are equals
+            parents.set(ul_par1, ul_par2);
+            sizes.set(ul_par2, sizes.get(ul_par2)*2);
+        }
+    }
 }
 
 class MainApplication {
+	
 	public static void main (String[] args) {
         
         System.out.println("Disjoint Set implementation: ");
@@ -68,6 +89,30 @@ class MainApplication {
             
         ds.unionByRank(3, 7); 
         if(ds.findUParent(3) == ds.findUParent(7)) {
+            System.out.println("Same"); 
+        }
+        else 
+            System.out.println("Not Same"); 
+            
+        System.out.println();
+        
+        DisjointSet ds2 = new DisjointSet(7);
+        
+        ds2.unionBySize(1, 2); 
+        ds2.unionBySize(2, 3); 
+        ds2.unionBySize(4, 5); 
+        ds2.unionBySize(6, 7); 
+        ds2.unionBySize(5, 6); 
+        
+        // if 3 and 7 same or not 
+        if(ds2.findUParent(3) == ds2.findUParent(7)) {
+            System.out.println("Same"); 
+        }
+        else 
+            System.out.println("Not Same"); 
+            
+        ds2.unionBySize(3, 7); 
+        if(ds2.findUParent(3) == ds2.findUParent(7)) {
             System.out.println("Same"); 
         }
         else 
