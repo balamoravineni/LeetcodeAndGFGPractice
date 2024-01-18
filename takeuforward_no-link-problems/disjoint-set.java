@@ -56,13 +56,9 @@ class DisjointSet {
             parents.set(ul_par2, ul_par1);
             sizes.set(ul_par1, sizes.get(ul_par2)+sizes.get(ul_par1));
         }
-        else if(sizes.get(ul_par1)<sizes.get(ul_par2)) {
+        else { // covers both less than or equal for sizes
             parents.set(ul_par1, ul_par2);
             sizes.set(ul_par2, sizes.get(ul_par2)+sizes.get(ul_par1));
-        }
-        else { // sizes are equals
-            parents.set(ul_par1, ul_par2);
-            sizes.set(ul_par2, sizes.get(ul_par2)*2);
         }
     }
 }
