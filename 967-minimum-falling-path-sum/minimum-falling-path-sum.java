@@ -2,13 +2,22 @@ class Solution {
     public int minFallingPathSum(int[][] matrix) {
         int ans = Integer.MAX_VALUE;
         int n = matrix.length;
-        int[][] dp = new int[n][n];
+        Integer[][] dp = new Integer[n][n];
         // return pathSumIterative(matrix, n, dp);
-        for(int[] temp:dp) Arrays.fill(temp, Integer.MAX_VALUE);
+        // for(int[] temp:dp) Arrays.fill(temp, Integer.MAX_VALUE);
         for(int i=0;i<n;i++) {
             ans = Math.min(ans, pathSum(matrix, n, 0, i, dp));
         }
         return ans;
+    }
+
+    int pathSum(int[][] matrix, int n, int row, int col, Integer[][] dp) {
+        if(row==n-1) return matrix[row][col];
+        if(dp[row][col]!=null) return dp[row][col];
+        int ans = matrix[row][col] + pathSum(matrix,n,row+1, col, dp);
+        if(col-1>=0) ans = Math.min(ans, matrix[row][col] + pathSum(matrix,n,row+1, col-1, dp));
+        if(col+1<n) ans = Math.min(ans, matrix[row][col] + pathSum(matrix,n,row+1, col+1, dp));
+        return dp[row][col] = ans;
     }
 
     int pathSumIterative(int[][] matrix, int n, int[][] dp) {
@@ -24,14 +33,5 @@ class Solution {
         int ans = Integer.MAX_VALUE;
         for(int i=0;i<n;i++) ans = Math.min(ans, dp[n-1][i]);
         return ans;
-    }
-
-    int pathSum(int[][] matrix, int n, int row, int col, int[][] dp) {
-        if(row==n-1) return matrix[row][col];
-        if(dp[row][col]!=Integer.MAX_VALUE) return dp[row][col];
-        int ans = matrix[row][col] + pathSum(matrix,n,row+1, col, dp);
-        if(col-1>=0) ans = Math.min(ans, matrix[row][col] + pathSum(matrix,n,row+1, col-1, dp));
-        if(col+1<n) ans = Math.min(ans, matrix[row][col] + pathSum(matrix,n,row+1, col+1, dp));
-        return dp[row][col] = ans;
     }
 }
