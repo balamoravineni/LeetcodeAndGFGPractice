@@ -10,16 +10,23 @@ public class Solution {
         //Your code goes here
         // Insert each element in its correct position
         for(int i=1;i<size;i++) {
-            for(int j=i-1;j>=0;j--) {
-                if(arr[j]>arr[j+1]) {
-                    int temp = arr[j];
-                    arr[j] = arr[j+1];
-                    arr[j+1] = temp;
-                }
-                else {
-                    break;
-                }
+            int j=i;
+            while(j-1>=0 && arr[j-1]>arr[j]) {
+                int temp = arr[j];
+                arr[j] = arr[j-1];
+                arr[j-1] = temp;
+                j--;
             }
+            // for(int j=i-1;j>=0;j--) {
+            //     if(arr[j]>arr[j+1]) {
+            //         int temp = arr[j];
+            //         arr[j] = arr[j+1];
+            //         arr[j+1] = temp;
+            //     }
+            //     else {
+            //         break;
+            //     }
+            // }
         }
     }
 }
