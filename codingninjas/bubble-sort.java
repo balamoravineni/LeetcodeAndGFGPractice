@@ -10,13 +10,16 @@ public class Solution {
         //Your code goes here
         for(int i=0;i<n-1;i++) {
             // push the max to the last using adjacent swaps
+            boolean swap = false; //optimisation if there are no swaps
             for(int j=0;j<n-1-i;j++) {
                 if(arr[j+1]<arr[j]) { // swap
                     int temp = arr[j];
                     arr[j] = arr[j+1];
                     arr[j+1] = temp;
+                    swap = true;
                 }
             }
+            if(!swap) break;
         }
     }
 
