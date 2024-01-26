@@ -9,15 +9,13 @@ public class Solution {
         //Your code goes here
         int n = arr.length;
         for(int i=0;i<n-1;i++) { // select minimums (or maximums) in each step for non-decreasing order (or non-increasing order)
-            int min = arr[i];
             int minIndex = i;
             for(int j=i+1;j<n;j++) {
-                if(arr[j]<min) {
-                    min = arr[j];
+                if(arr[j]<arr[minIndex]) {
                     minIndex = j;
                 }
             }
-            if(minIndex!=i) { //swap
+            if(minIndex!=i) { // swap
                 int temp = arr[minIndex];
                 arr[minIndex] = arr[i];
                 arr[i] = temp;
