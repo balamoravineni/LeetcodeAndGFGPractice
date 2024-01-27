@@ -4,11 +4,17 @@
   Given the 'start' and the 'end'' positions of the array 'input'. Your task is to sort the elements between 'start' and 'end' using quick sort.
 */
 
-
 public class Solution {
 	
 	public static void quickSort(int[] input,int startIndex, int endIndex) {
 		if(startIndex>=endIndex) return;
+		// System.out.println("pivot index: " + j);
+		int pIndex = quickSortHelper(input, startIndex, endIndex);
+		quickSort(input, startIndex, pIndex-1);
+		quickSort(input, pIndex+1, endIndex);
+	}
+
+	static int quickSortHelper(int[] input,int startIndex, int endIndex) {
 		int pivot = input[startIndex];
 		int i = startIndex+1, j = endIndex;
 		while(i<=j) {
@@ -17,11 +23,9 @@ public class Solution {
 			// System.out.println(i + " " + j);
 			if(i<j) swap(input, i, j);
 		}
-		// j -> pivotIndex
+		// j -> pivotIndex / partitionIndex
 		swap(input, startIndex, j);
-		// System.out.println("pivot index: " + j);
-		quickSort(input, startIndex, j-1);
-		quickSort(input, j+1, endIndex);
+		return j;
 	}
 
 	static void swap(int[] arr, int i, int j) {
