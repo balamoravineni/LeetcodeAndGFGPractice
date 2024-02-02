@@ -6,14 +6,12 @@ class Solution {
 
         List<Integer> ans = new ArrayList<>();
 
-        System.out.println(init.length() + " -> " + end.length());
-
-
+        // System.out.println(init.length() + " -> " + end.length());
         for(int i=init.length();i<=end.length() && i<=9;i++) {
             StringBuilder start = new StringBuilder();
             int temp = i;
             for(int j=1;j<=temp;j++) start.append(j + "");
-            System.out.println(temp + ": " + start.toString());
+            // System.out.println(temp + ": " + start.toString());
             while(true) {
                 Integer curr = new Integer(start.toString());
                 if(curr<low) {
