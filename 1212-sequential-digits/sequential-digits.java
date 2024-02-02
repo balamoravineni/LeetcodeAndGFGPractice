@@ -1,6 +1,27 @@
 class Solution {
     public List<Integer> sequentialDigits(int low, int high) {
-        
+        // return usingStringsMyOwnLogic(low, high);
+        return optimisedUsingNumbers(low, high);
+    }
+
+    List<Integer> optimisedUsingNumbers(int low, int high) {
+        List<Integer> ans = new ArrayList<>();
+        for(int i=1;i<=9;i++) {
+            int curr = i;
+            int nextDigit = i+1;
+            while(nextDigit<=9) {
+                curr = curr*10+nextDigit;
+                if(curr>=low && curr<=high) {
+                    ans.add(curr);
+                }
+                nextDigit++;
+            }
+        }
+        Collections.sort(ans);
+        return ans;
+    }
+
+    List<Integer> usingStringsMyOwnLogic(int low, int high) {
         String init = Integer.toString(low);
         String end = Integer.toString(high);
 
