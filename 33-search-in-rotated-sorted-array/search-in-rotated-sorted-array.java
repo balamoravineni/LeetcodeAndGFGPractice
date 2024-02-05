@@ -23,21 +23,12 @@ class Solution {
             // System.out.println(lo + " " + hi + ": -1");
             return -1;
         }
-        else if(lo==hi-1 && nums[lo]>nums[hi]) {
-            // System.out.println(lo + " " + hi + ": " + lo);
-            return lo;
-        }
-        else if(lo==hi-1) {
-            // System.out.println(lo + " " + hi + ": -1");
-            return -1;
-        }
         int mid = lo + (hi-lo)/2;
         int left = pivotPoint(nums, lo, mid);
         int right = pivotPoint(nums, mid+1, hi);
         // System.out.println(lo + " " + hi + ": " + left + " -> " + right);
         if(left==-1 && right==-1) return mid;
         else if(left==-1) return right;
-        else if(right==-1) return left;
-        return -1;
+        return left;
     }
 }
