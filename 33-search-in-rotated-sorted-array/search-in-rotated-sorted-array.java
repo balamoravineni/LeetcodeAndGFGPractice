@@ -1,35 +1,57 @@
 class Solution {
     public int search(int[] nums, int target) {
         // return usingPivotPoint(nums, target);
-        return usingBSDirectly(nums, target, 0, nums.length-1);
+        // return usingBSRecursive(nums, target, 0, nums.length-1);
+        return usingBSItertive(nums, target);
     }
 
-    int usingBSDirectly(int[] nums, int target, int lo, int hi) {
+    int usingBSItertive(int[] nums, int target) {
+        int lo = 0, hi = nums.length-1;
+        while(lo<=hi) {
+            int mid = (lo + hi)/2;
+            if(nums[mid]==target) return mid;
+            else if(nums[lo]<=nums[mid] && nums[lo]<=target && target<=nums[mid]) {
+                hi = mid-1;
+            }
+            else if(nums[lo]<=nums[mid]){
+                lo = mid+1;
+            }
+            else if(nums[mid]<=nums[hi] && nums[mid]<=target && target<=nums[hi]) {
+                lo=mid+1;
+            }
+            else if(nums[mid]<=nums[hi]){
+                hi = mid-1;
+            }
+        }
+        return -1;
+    }
+
+    int usingBSRecursive(int[] nums, int target, int lo, int hi) {
         if(lo>hi) return -1;
         int mid = (lo+hi)/2;
         if(nums[mid]==target) return mid;
-        else if(nums[lo]<nums[hi]) {
+        else if(nums[lo]<=nums[hi]) {
             if(nums[mid]<target) {
-                return usingBSDirectly(nums, target, mid+1, hi);
+                return usingBSRecursive(nums, target, mid+1, hi);
             }
             else {
-                return usingBSDirectly(nums, target, lo, mid);
+                return usingBSRecursive(nums, target, lo, mid);
             }
         }
         else if(nums[lo]<=nums[mid]) {
             if(nums[lo]<=target && target<=nums[mid]) {
-                return usingBSDirectly(nums, target, lo, mid);
+                return usingBSRecursive(nums, target, lo, mid);
             }
             else {
-                return usingBSDirectly(nums, target, mid+1, hi);
+                return usingBSRecursive(nums, target, mid+1, hi);
             }
         }
         else if(nums[mid]<=nums[hi]) {
             if(nums[mid]<=target && target<=nums[hi]) {
-                return usingBSDirectly(nums, target, mid, hi);
+                return usingBSRecursive(nums, target, mid, hi);
             }
             else {
-                return usingBSDirectly(nums, target, lo, mid-1);
+                return usingBSRecursive(nums, target, lo, mid-1);
             }
         }
         return -1;
