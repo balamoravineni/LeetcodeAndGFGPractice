@@ -10,17 +10,13 @@ class Solution {
         while(lo<=hi) {
             int mid = (lo + hi)/2;
             if(nums[mid]==target) return mid;
-            else if(nums[lo]<=nums[mid] && nums[lo]<=target && target<=nums[mid]) {
-                hi = mid-1;
+            else if(nums[lo]<=nums[mid]) {
+                if(nums[lo]<=target && target<=nums[mid]) hi = mid-1;
+                else lo = mid+1;
             }
-            else if(nums[lo]<=nums[mid]){
-                lo = mid+1;
-            }
-            else if(nums[mid]<=nums[hi] && nums[mid]<=target && target<=nums[hi]) {
-                lo=mid+1;
-            }
-            else if(nums[mid]<=nums[hi]){
-                hi = mid-1;
+            else { // nums[mid]<=nums[hi]
+                if(nums[mid]<=target && target<=nums[hi]) lo=mid+1;
+                else hi = mid-1;
             }
         }
         return -1;
