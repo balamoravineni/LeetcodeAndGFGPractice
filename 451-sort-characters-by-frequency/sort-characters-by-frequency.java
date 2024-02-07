@@ -21,8 +21,7 @@ class Solution {
         Collections.sort(list, (p1, p2) -> p2.count-p1.count);
         StringBuilder ans = new StringBuilder();
         for(Pair temp: list) {
-            int count = temp.count;
-            while(count-->0) ans.append(temp.ch);
+            ans.append(String.join("", Collections.nCopies(temp.count, new String(new char[]{temp.ch}))));
         }
         return ans.toString();
     }
