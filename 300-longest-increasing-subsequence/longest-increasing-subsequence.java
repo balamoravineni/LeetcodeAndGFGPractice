@@ -25,7 +25,40 @@ class Solution {
 
         // int ans = iterativeHelper(nums);
         // int ans = spaceOptimised(nums);
-        int ans = tabulation(nums);
+        // int ans = tabulation(nums);
+        int ans = tabulationPrintLIS(nums);
+        return ans;
+    }
+
+    int tabulationPrintLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] parent = new int[n];
+        Arrays.fill(dp, 1);
+        int ans = 1;
+        int lastIndex = 0;
+        for(int i=0;i<n;i++) parent[i] = i;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<i;j++) {
+                if(nums[i]>nums[j]) {
+                    if(dp[j]+1>dp[i]) {
+                        dp[i] = dp[j]+1;
+                        parent[i] = j;
+                    }
+                }
+            }
+            if(dp[i]>ans) {
+                ans = dp[i];
+                lastIndex = i;
+            }
+        }
+        List<Integer> seq = new LinkedList<>();
+        while(true) {
+            seq.add(0, nums[lastIndex]);
+            if(dp[lastIndex]==1) break;
+            else lastIndex = parent[lastIndex];
+        }
+        System.out.println(seq);
         return ans;
     }
 
