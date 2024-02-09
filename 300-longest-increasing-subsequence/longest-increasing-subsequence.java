@@ -22,13 +22,29 @@ class Solution {
         // int[][] dp = new int[nums.length][nums.length];
         // for(int[] temp: dp) Arrays.fill(temp, -1);
         // int ans = recursiveHelper(nums,0,-1,dp);
-        int ans = iterativeHelper(nums);
+
+        // int ans = iterativeHelper(nums);
+        int ans = spaceOptimised(nums);
         return ans;
     }
 
     int spaceOptimised(int[] nums) {
-
-        return -1;
+        int n = nums.length;
+        int[] next = new int[n+1];
+        int[] curr = new int[n+1];
+        // base case -> 0 ; not required to write specifically
+        for(int i=n-1;i>=0;i--) {
+            for(int j=i-1;j>=-1;j--) {
+                int take = Integer.MIN_VALUE;
+                if(j==-1 || nums[i]>nums[j]) {
+                    take = 1 + next[i+1];
+                }
+                int notTake = next[j+1];
+                curr[j+1] = Math.max(take, notTake);
+            }
+            next = curr;
+        }
+        return next[0];
     }
 
     int iterativeHelper(int[] nums) {
