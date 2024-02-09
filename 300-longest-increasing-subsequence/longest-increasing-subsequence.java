@@ -1,7 +1,7 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        // return usingDP(nums);
-        return usingBinarySearch(nums);
+        return usingDP(nums);
+        // return usingBinarySearch(nums);
     }
 
     int usingBinarySearch(int[] nums) {
@@ -19,10 +19,33 @@ class Solution {
     }
  
     int usingDP(int[] nums) {
-        int[][] dp = new int[nums.length][nums.length];
-        for(int[] temp: dp) Arrays.fill(temp, -1);
-        int ans = recursiveHelper(nums,0,-1,dp);
+        // int[][] dp = new int[nums.length][nums.length];
+        // for(int[] temp: dp) Arrays.fill(temp, -1);
+        // int ans = recursiveHelper(nums,0,-1,dp);
+        int ans = iterativeHelper(nums);
         return ans;
+    }
+
+    int spaceOptimised(int[] nums) {
+
+        return -1;
+    }
+
+    int iterativeHelper(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n+1][n+1];
+        // base case -> 0 ; not required to write specifically
+        for(int i=n-1;i>=0;i--) {
+            for(int j=i-1;j>=-1;j--) {
+                int take = Integer.MIN_VALUE;
+                if(j==-1 || nums[i]>nums[j]) {
+                    take = 1 + dp[i+1][i+1];
+                }
+                int notTake = dp[i+1][j+1];
+                dp[i][j+1] = Math.max(take, notTake);
+            }
+        }
+        return dp[0][0];
     }
 
     int recursiveHelper(int[] nums, int index, int prevIndex, int[][] dp) {
