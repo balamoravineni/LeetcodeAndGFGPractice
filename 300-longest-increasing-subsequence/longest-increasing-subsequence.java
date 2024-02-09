@@ -24,7 +24,22 @@ class Solution {
         // int ans = recursiveHelper(nums,0,-1,dp);
 
         // int ans = iterativeHelper(nums);
-        int ans = spaceOptimised(nums);
+        // int ans = spaceOptimised(nums);
+        int ans = tabulation(nums);
+        return ans;
+    }
+
+    int tabulation(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<i;j++) {
+                if(nums[i]>nums[j]) dp[i] = Math.max(dp[i], dp[j]+1);
+            }
+        }
+        int ans = 1;
+        for(int temp: dp) ans = Math.max(ans, temp);
         return ans;
     }
 
