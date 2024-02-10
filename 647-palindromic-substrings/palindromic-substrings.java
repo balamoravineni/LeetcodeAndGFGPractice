@@ -11,21 +11,21 @@ class Solution {
         return ans;
     }
     
-    Map<String,Boolean> memo = new HashMap<>();
+    // Map<String,Boolean> memo = new HashMap<>();
 
     boolean isPalindrome(String curr) {
-        if(memo.containsKey(curr)) return memo.get(curr);
+        // if(memo.containsKey(curr)) return memo.get(curr);
         int i=0; 
         int j=curr.length()-1;
         while(i<j) {
             if(curr.charAt(i)!=curr.charAt(j)) {
-                memo.put(curr, false);
+                // memo.put(curr, false);
                 return false;
             }
             i++;
             j--;
         }
-        memo.put(curr, true);
+        // memo.put(curr, true);
         return true;
     }
 }
