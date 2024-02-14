@@ -1,40 +1,36 @@
-// you might get confused while seeing use of dp array, just remove that dp array then it will be
-//more clear ans consize for you//
-
 class Solution {
-    static List<Integer> res;
-    static int dp[];
     public List<Integer> largestDivisibleSubset(int[] nums) {
         Arrays.sort(nums);
-        dp=new int[nums.length+1];
-        List<Integer> ans=new ArrayList<>();
-        res=new ArrayList<>();
-        Arrays.fill(dp,-1);
-        solve(nums,0,1,ans);
-        return res;
-    }
-    //we have two condtions for every element weather to tkae the eleemnt or not,
-    //takini=g or adding into my list will happen only if the no. is divisible
-    
-    static void solve(int nums[], int i, int prev,List<Integer> ans){
-        
-        if(i>=nums.length) {
-            if(ans.size()>res.size()){
-                res.clear();
-                res.addAll(ans);
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] parent = new int[n];
+        for(int i=0;i<n;i++) {
+            dp[i] = 1;
+            parent[i] = i;
+        }
+        int max = 1;
+        int last = 0;
+        // tabulation of dp array
+        for(int i=1;i<n;i++) {
+            for(int j=0;j<i;j++) {
+                if(nums[i]%nums[j]==0 && dp[j]>=dp[i]) {
+                    dp[i] = dp[j]+1;
+                    parent[i] = j;
+                }
             }
-            return;
+            if(dp[i]>max) {
+                max = dp[i];
+                last = i;
+            }
         }
-        // taking condition.....
-        
-        if(ans.size()>dp[i] && (nums[i]%prev==0 || prev%nums[i]==0)){
-            dp[i]=ans.size();
-            ans.add(nums[i]);
-            solve(nums,i+1,nums[i],ans);
-            ans.remove(ans.size()-1);
+
+        List<Integer> ans = new ArrayList<>();
+        while(parent[last]!=last) {
+            ans.add(nums[last]);
+            last = parent[last];
         }
-        //not taking condition.....
-        
-        solve(nums,i+1,prev,ans);  
+        ans.add(nums[last]);
+        return ans;
+
     }
 }
