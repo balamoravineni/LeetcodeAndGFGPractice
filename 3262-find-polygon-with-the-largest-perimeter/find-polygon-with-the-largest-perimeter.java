@@ -15,6 +15,9 @@ class Solution {
                 sum -= nums[i];
                 sides--;
             }
+            else {
+                return sum;
+            }
         }
         if(sides<3) return -1;
         return sum;
