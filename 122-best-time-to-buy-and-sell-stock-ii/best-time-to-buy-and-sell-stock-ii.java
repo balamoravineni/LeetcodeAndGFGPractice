@@ -1,26 +1,26 @@
 class Solution {
     public int maxProfit(int[] prices) {
         // return usingMemoization(prices);
-        return usingIteration(prices);
-        // return spaceOptimization(prices); 
+        // return usingIteration(prices);
+        return spaceOptimization(prices); 
     }
 
     int spaceOptimization(int[] prices) {
         int n = prices.length;
-        int[] next = new int[n+1];
-        int[] curr = new int[n+1];
+        int[] next = new int[2];
+        int[] curr = new int[2];
         // base case is 0 & init values in dp is 0
         for(int index=n-1;index>=0;index--) {
-            for(int boughtIndex=index-1; boughtIndex>=-1; boughtIndex--) {
-                if(boughtIndex==-1) {
-                    int buy = next[index+1];
+            for(int bought=1; bought>=0; bought--) {
+                if(bought==0) {
+                    int buy = -prices[index] + next[1];
                     int dontBuy = next[0]; 
-                    curr[boughtIndex+1] = Math.max(buy, dontBuy);
+                    curr[bought] = Math.max(buy, dontBuy);
                 }
                 else {
-                    int sell = prices[index]-prices[boughtIndex] + next[0];
-                    int dontSell = next[boughtIndex+1];
-                    curr[boughtIndex+1] = Math.max(sell, dontSell);
+                    int sell = prices[index] + next[0];
+                    int dontSell = next[1];
+                    curr[bought] = Math.max(sell, dontSell);
                 }
             }
             next = curr;
