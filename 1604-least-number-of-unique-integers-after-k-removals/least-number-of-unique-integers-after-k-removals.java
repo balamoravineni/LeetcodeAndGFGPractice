@@ -10,10 +10,7 @@ class Pair {
 class Solution {
     public int findLeastNumOfUniqueInts(int[] arr, int k) {
         Map<Integer,Integer> freq = new HashMap<>();
-        for(int temp: arr) {
-            if(freq.containsKey(temp)) freq.put(temp, freq.get(temp)+1);
-            else freq.put(temp, 1);
-        }
+        for(int temp: arr) freq.put(temp, freq.getOrDefault(temp, 0)+1);
         List<Pair> list = new ArrayList<>();
         for(int key: freq.keySet()) list.add(new Pair(key, freq.get(key)));
         Collections.sort(list, (p1, p2) -> p1.count-p2.count);
