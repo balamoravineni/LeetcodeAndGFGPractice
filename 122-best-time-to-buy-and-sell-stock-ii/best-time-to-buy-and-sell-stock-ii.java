@@ -1,7 +1,7 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        return usingMemoization(prices);
-        // return usingIteration(prices);
+        // return usingMemoization(prices);
+        return usingIteration(prices);
         // return spaceOptimization(prices); 
     }
 
@@ -30,19 +30,19 @@ class Solution {
 
     int usingIteration(int[] prices) {
         int n = prices.length;
-        int[][] dp = new int[n+1][n+1];
+        int[][] dp = new int[n+1][2];
         // base case is 0 & init values in dp is 0
         for(int index=n-1;index>=0;index--) {
-            for(int boughtIndex=index-1; boughtIndex>=-1; boughtIndex--) {
-                if(boughtIndex==-1) {
-                    int buy = dp[index+1][index+1];
+            for(int bought=1; bought>=0; bought--) {
+                if(bought==0) {
+                    int buy = -prices[index] + dp[index+1][1];
                     int dontBuy = dp[index+1][0]; 
-                    dp[index][boughtIndex+1] = Math.max(buy, dontBuy);
+                    dp[index][bought] = Math.max(buy, dontBuy);
                 }
                 else {
-                    int sell = prices[index]-prices[boughtIndex] + dp[index+1][0];
-                    int dontSell = dp[index+1][boughtIndex+1];
-                    dp[index][boughtIndex+1] = Math.max(sell, dontSell);
+                    int sell = prices[index] + dp[index+1][0];
+                    int dontSell = dp[index+1][1];
+                    dp[index][bought] = Math.max(sell, dontSell);
                 }
             }
         }
