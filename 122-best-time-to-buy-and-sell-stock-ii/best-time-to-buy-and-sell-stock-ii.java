@@ -1,8 +1,9 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        // return usingMemoization(prices);
-        // return usingIteration(prices);
-        return spaceOptimization(prices);
+        // only recusrive -> TLE
+        // return usingMemoization(prices); // -> SLE
+        // return usingIteration(prices); // -> SLE
+        return spaceOptimization(prices); // -> PASSED
     }
 
     int spaceOptimization(int[] prices) {
