@@ -1,9 +1,8 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        // only recusrive -> TLE
-        // return usingMemoization(prices); // -> SLE
-        // return usingIteration(prices); // -> SLE
-        return spaceOptimization(prices); // -> PASSED
+        return usingMemoization(prices);
+        // return usingIteration(prices);
+        // return spaceOptimization(prices); 
     }
 
     int spaceOptimization(int[] prices) {
@@ -51,21 +50,21 @@ class Solution {
     }
 
     int usingMemoization(int[] prices) {
-        int[][] dp = new int[prices.length][prices.length];
+        int[][] dp = new int[prices.length][2];
         for(int[] temp: dp) Arrays.fill(temp, -1);
-        return recursive(prices, 0, -1, dp);
+        return recursive(prices, 0, 0, dp);
     }
 
-    int recursive(int[] prices, int index, int boughtIndex, int[][] dp) {
+    int recursive(int[] prices, int index, int bought, int[][] dp) {
         if(index==prices.length) return 0;
-        if(dp[index][boughtIndex+1]!=-1) return dp[index][boughtIndex+1];
-        if(boughtIndex==-1) {
-            int buy = recursive(prices, index+1, index, dp);
-            int dontBuy = recursive(prices, index+1, -1, dp);
-            return dp[index][boughtIndex+1] = Math.max(buy, dontBuy);
+        if(dp[index][bought]!=-1) return dp[index][bought];
+        if(bought==0) {
+            int buy = -prices[index] + recursive(prices, index+1, 1, dp);
+            int dontBuy = recursive(prices, index+1, 0, dp);
+            return dp[index][bought] = Math.max(buy, dontBuy);
         }
-        int sell = prices[index]-prices[boughtIndex] + recursive(prices, index+1, -1, dp);
-        int dontSell = recursive(prices, index+1, boughtIndex, dp);
-        return dp[index][boughtIndex+1] = Math.max(sell, dontSell);
+        int sell = prices[index] + recursive(prices, index+1, 0, dp);
+        int dontSell = recursive(prices, index+1, 1, dp);
+        return dp[index][bought] = Math.max(sell, dontSell);
     }
 }
