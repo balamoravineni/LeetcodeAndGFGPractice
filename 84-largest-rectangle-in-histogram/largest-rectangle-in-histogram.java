@@ -5,20 +5,16 @@ class Solution {
         return optimised(heights);
     }
 
-    int optimised(int[] heights) { // TC: O(2*N); SC: O(2*N)
+    int optimised(int[] heights) { // TC: O(2*N); SC: O(N)
         int n = heights.length;
         Deque<Integer> stack = new ArrayDeque<>();
         int ans = 0;
         for(int i=0;i<=n;i++) {
             while(!stack.isEmpty() && ( i==n || heights[stack.peek()]>heights[i])) {
-                int currentIndex = stack.pop();
-                int l = heights[currentIndex];
+                int l = heights[stack.pop()];
                 int rightSmaller = i;
-                int rightB = rightSmaller-currentIndex-1;
-                int leftSmaller = -1;
-                if(!stack.isEmpty()) leftSmaller = stack.peek();
-                int leftB = currentIndex-leftSmaller-1;
-                int b = 1 + rightB + leftB;
+                int leftSmaller = stack.isEmpty()?-1:stack.peek();
+                int b = rightSmaller - leftSmaller - 1;
                 ans = Math.max(ans, l*b);
             }
             if(i!=n) stack.push(i);
@@ -26,7 +22,7 @@ class Solution {
         return ans;
     }
 
-    int usingMonotoneStack(int[] heights) { // TC: O(2*N); SC: O(2*N)
+    int usingMonotoneStack(int[] heights) { // TC: O(4*N); SC: O(2*N)
         int n = heights.length;
         int[] leftSmaller = new int[n];
         Deque<Integer> stack = new ArrayDeque<>();
@@ -40,8 +36,8 @@ class Solution {
 
         // stack.clear();
         int ans = 0;
-        for(int i=0;i<n;i++) {
-            while(!stack.isEmpty() && heights[stack.peek()]>heights[i]) {
+        for(int i=0;i<=n;i++) {
+            while(!stack.isEmpty() && (i==n || heights[stack.peek()]>heights[i])) {
                 int currentIndex = stack.pop();
                 int l = heights[currentIndex];
                 int rightSmaller = i;
@@ -51,15 +47,6 @@ class Solution {
                 ans = Math.max(ans, l*b);
             }
             stack.push(i);
-        }
-        while(!stack.isEmpty()) {
-            int currentIndex = stack.pop();
-            int l = heights[currentIndex];
-            int rightSmaller = n;
-            int rightB = rightSmaller-currentIndex-1;
-            int leftB = currentIndex-leftSmaller[currentIndex]-1;
-            int b = 1 + rightB + leftB;
-            ans = Math.max(ans, l*b);
         }
         return ans;
     }
