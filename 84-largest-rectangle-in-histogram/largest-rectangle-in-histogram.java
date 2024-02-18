@@ -1,7 +1,40 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
         // return bruteForce(heights);
-        return usingMonotoneStack(heights);
+        // return usingMonotoneStack(heights);
+        return optimised(heights);
+    }
+
+    int optimised(int[] heights) {
+        int n = heights.length;
+        Deque<Integer> stack = new ArrayDeque<>();
+        int ans = 0;
+        for(int i=0;i<n;i++) {
+            while(!stack.isEmpty() && heights[stack.peek()]>heights[i]) {
+                int currentIndex = stack.pop();
+                int l = heights[currentIndex];
+                int rightSmaller = i;
+                int rightB = rightSmaller-currentIndex-1;
+                int leftSmaller = -1;
+                if(!stack.isEmpty()) leftSmaller = stack.peek();
+                int leftB = currentIndex-leftSmaller-1;
+                int b = 1 + rightB + leftB;
+                ans = Math.max(ans, l*b);
+            }
+            stack.push(i);
+        }
+        while(!stack.isEmpty()) {
+            int currentIndex = stack.pop();
+            int l = heights[currentIndex];
+            int rightSmaller = n;
+            int rightB = rightSmaller-currentIndex-1;
+            int leftSmaller = -1;
+            if(!stack.isEmpty()) leftSmaller = stack.peek();
+            int leftB = currentIndex-leftSmaller-1;
+            int b = 1 + rightB + leftB;
+            ans = Math.max(ans, l*b);
+        }
+        return ans;
     }
 
     int usingMonotoneStack(int[] heights) { // TC: O(2*N); SC: O(2*N)
