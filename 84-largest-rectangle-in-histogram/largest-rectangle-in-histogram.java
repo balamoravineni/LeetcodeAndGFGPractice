@@ -16,13 +16,14 @@ class Solution {
         }
         while(!stack.isEmpty()) leftSmaller[stack.pop()] = -1;
 
-        stack.clear();
+        // stack.clear();
         int ans = 0;
         for(int i=0;i<n;i++) {
             while(!stack.isEmpty() && heights[stack.peek()]>heights[i]) {
                 int currentIndex = stack.pop();
                 int l = heights[currentIndex];
-                int rightB = i-currentIndex-1;
+                int rightSmaller = i;
+                int rightB = rightSmaller-currentIndex-1;
                 int leftB = currentIndex-leftSmaller[currentIndex]-1;
                 int b = 1 + rightB + leftB;
                 ans = Math.max(ans, l*b);
@@ -32,7 +33,8 @@ class Solution {
         while(!stack.isEmpty()) {
             int currentIndex = stack.pop();
             int l = heights[currentIndex];
-            int rightB = n-currentIndex-1;
+            int rightSmaller = n;
+            int rightB = rightSmaller-currentIndex-1;
             int leftB = currentIndex-leftSmaller[currentIndex]-1;
             int b = 1 + rightB + leftB;
             ans = Math.max(ans, l*b);
