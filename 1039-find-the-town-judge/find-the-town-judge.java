@@ -1,5 +1,10 @@
 class Solution {
     public int findJudge(int n, int[][] trust) {
+        // return usingBooleanArray(n, trust);
+        return usingMapAndSet(n, trust);
+    }
+
+    int usingMapAndSet(int n, int[][] trust) {
         if(n==1) return 1;
         Set<Integer> givingTrust = new HashSet<>();
         Map<Integer, Set<Integer>> takingTrust = new HashMap<>();
