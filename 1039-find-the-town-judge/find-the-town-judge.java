@@ -1,5 +1,25 @@
 class Solution {
     public int findJudge(int n, int[][] trust) {
+        if(n==1) return 1;
+        Set<Integer> givingTrust = new HashSet<>();
+        Map<Integer, Set<Integer>> takingTrust = new HashMap<>();
+        for(int[] temp: trust) {
+            givingTrust.add(temp[0]);
+            if(!takingTrust.containsKey(temp[1])) {
+                takingTrust.put(temp[1], new HashSet<>());
+            }
+            takingTrust.get(temp[1]).add(temp[0]);
+        }
+        for(int i=1;i<=n;i++) {
+            if(givingTrust.contains(i)) continue;
+            else {
+                if(takingTrust.containsKey(i) && takingTrust.get(i).size()==n-1) return i;
+            }
+        }
+        return -1;
+    }
+
+    int usingBooleanArray(int n, int[][] trust) {
         boolean[] people = new boolean[n];
         for(int[] temp: trust) people[temp[0]-1] = true;
         int ans = -1;
