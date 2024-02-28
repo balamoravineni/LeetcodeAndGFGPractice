@@ -2,7 +2,21 @@ class Solution {
     public int findJudge(int n, int[][] trust) {
         // return usingBooleanArray(n, trust);
         // return usingMapAndSet(n, trust);
-        return usingGraphConcept(n, trust);
+        // return usingGraphConcept(n, trust);
+        return mostOptimised(n, trust);
+    }
+
+    int mostOptimised(int n, int[][] trust) {
+        int[] degree = new int[n];
+        for(int[] temp: trust) {
+            // works because given pairs are all unique
+            degree[temp[0]-1]++; // outDegree
+            degree[temp[1]-1]--; // inDegree
+        }
+        for(int i=0;i<n;i++) {
+            if(-degree[i]==n-1) return i+1;
+        }
+        return -1;
     }
 
     int usingGraphConcept(int n, int[][] trust) {
