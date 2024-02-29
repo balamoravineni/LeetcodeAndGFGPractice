@@ -13,10 +13,38 @@
  *     }
  * }
  */
+
 class Solution {
     public boolean isEvenOddTree(TreeNode root) {
-        Map<Integer,Integer> map = new HashMap<>();
-        return dfs(root, 0, map);
+        // Map<Integer,Integer> map = new HashMap<>();
+        // return dfs(root, 0, map);
+        return bfs(root);
+    }
+
+    boolean bfs(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        if(root!=null) q.add(root);
+        int level = 0;
+        while(!q.isEmpty()) {     
+            int size = q.size();
+            int prev = -1;
+            if(level%2==0) prev=0;
+            else prev = Integer.MAX_VALUE;
+            for(int i=0;i<size;i++) {
+                TreeNode curr = q.remove();
+                if(level%2==0 && (curr.val%2==0 || curr.val<=prev)) {
+                    return false;
+                }
+                if(level%2==1 && (curr.val%2==1 || curr.val>=prev)) {
+                    return false;
+                }
+                prev = curr.val;
+                if(curr.left!=null) q.add(curr.left);
+                if(curr.right!=null) q.add(curr.right);
+            }
+            level++;
+        }
+        return true;
     }
 
     boolean dfs(TreeNode root, int level, Map<Integer,Integer> map) {
