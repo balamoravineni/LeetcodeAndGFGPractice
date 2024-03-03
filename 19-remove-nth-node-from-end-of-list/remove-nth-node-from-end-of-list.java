@@ -10,6 +10,26 @@
  */
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        // return twoPass(head,n);
+        return onePass(head,n);
+    }
+
+    ListNode onePass(ListNode head, int n) {
+        ListNode fast = head;
+        while(n-->0) fast = fast.next;
+        ListNode slow = head;
+        ListNode prev = null;
+        while(fast!=null) {
+            fast = fast.next;
+            prev = slow;
+            slow = slow.next;
+        }
+        if(prev==null) return head.next;
+        prev.next = prev.next.next;
+        return head;
+    }
+
+    ListNode twoPass(ListNode head, int n) {
         int len = 0;
         ListNode curr = head;
         while(curr!=null) {
