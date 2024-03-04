@@ -6,18 +6,16 @@ class Solution {
         int ans = 0;
         Arrays.sort(tokens);
         while(i<=j) {
-            if(power>=tokens[i]) {
-                score++;
-                ans = Math.max(ans, score);
-                power -= tokens[i++];
+            while (i<=j && power>=tokens[i]){
+               power-=tokens[i++];
+               score++;
             }
-            else if(score>=1){
+            ans=Math.max(ans, score);
+            if (i<j && score>0) { 
+                power+= tokens[j--];
                 score--;
-                power += tokens[j--];
             }
-            else {
-                break;
-            }
+            else break;
         }
         return ans;
     }
