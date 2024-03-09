@@ -3,10 +3,15 @@ class Solution {
         int i=0;
         int j=0;
         while(i<nums1.length && j<nums2.length) {
-            if(nums1[i]==nums2[j]) return nums1[i];
-            else if(nums1[i]<nums2[j]) i++;
-            else j++;
+            System.out.println("searching for"+ nums1[i]);
+            int index = Arrays.binarySearch(nums2, j, nums2.length, nums1[i++]);
+            if(index>=0) return nums2[index];
+            else {
+                j = -(index+1);
+                if(j==nums2.length || nums2[j]>nums1[nums1.length-1]) break;
+            }
         }
         return -1;
     }
+
 }
