@@ -10,19 +10,19 @@ class Solution {
         int i=0, j=0;
         List<Integer> ans = new ArrayList<>();
         while(i<nums1.length && j<nums2.length) {
-            if(nums1[i]==nums2[j]) ans.add(nums1[i]);
+            while(i+1<nums1.length && nums1[i+1]==nums1[i]) i++;
+            while(j+1<nums2.length && nums2[j+1]==nums2[j]) j++;
+            if(nums1[i]==nums2[j]) {
+                ans.add(nums1[i]);
+                i++;
+                j++;
+            }
             else if(nums1[i]<nums2[j]) {
                 i++;
-                continue;
             }
             else {
                 j++;
-                continue;
             }
-            while(i+1<nums1.length && nums1[i+1]==nums1[i]) i++;
-            i++;
-            while(j+1<nums2.length && nums2[j+1]==nums2[j]) j++;
-            j++;
         }
         int[] res = new int[ans.size()];
         int size = 0;
