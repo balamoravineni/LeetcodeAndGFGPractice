@@ -12,10 +12,10 @@ class Solution {
     public ListNode removeZeroSumSublists(ListNode head) {
         Map<Integer,ListNode> map = new HashMap<>();
         boolean deleted = true;
-        ListNode curr = head;
         while (deleted) {
             deleted = false;
             int sum = 0;
+            ListNode curr = head;
             while(curr!=null) {
                 sum += curr.val;
                 if(sum==0) {
@@ -33,7 +33,6 @@ class Solution {
                 curr = curr.next;
             }
             map.clear();
-            curr = head;
         }
         return head;
     }
