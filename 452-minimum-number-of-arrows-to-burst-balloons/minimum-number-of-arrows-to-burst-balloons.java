@@ -3,11 +3,12 @@ class Solution {
         Arrays.sort(points, (p1,p2) -> {
             if(p1[0]<p2[0]) return -1;
             else if(p1[0]>p2[0]) return 1;
-            else {
-                if(p1[1]<p2[1]) return -1;
-                else if(p1[1]>p2[1]) return 1;
-                return 0;
-            }
+            // else {
+            //     if(p1[1]<p2[1]) return -1;
+            //     else if(p1[1]>p2[1]) return 1;
+            //     return 0;
+            // }
+            return 0;
         });
         // System.out.println(points[0][0]);
         // for(int i=0;i<points.length;i++) System.out.printf("[%d, %d],", points[i][0], points[i][1]);
