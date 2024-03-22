@@ -10,7 +10,36 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        return usingExtraSpace(head);
+        // return usingExtraSpace(head);
+        return optimised(head);
+    }
+
+    boolean optimised(ListNode head) {
+        // reverse the second half & compare with first half
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast!=null && fast.next!=null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode secondHalf = slow;
+        if(fast!=null) secondHalf = slow.next;
+        // reverse
+        ListNode prev = null;
+        while(secondHalf!=null) {
+            ListNode next = secondHalf.next;
+            secondHalf.next = prev;
+            prev = secondHalf;
+            secondHalf = next;
+        }
+        secondHalf = prev;
+        // compare
+        while(secondHalf!=null) {
+            if(secondHalf.val!=head.val) return false;
+            secondHalf = secondHalf.next;
+            head = head.next;
+        }
+        return true;
     }
 
     boolean usingExtraSpace(ListNode head) {
