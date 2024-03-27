@@ -1,6 +1,21 @@
 class Solution {
     public int firstMissingPositive(int[] nums) {
-        return usingSorting(nums);
+        // return usingSorting(nums);
+        return optimised(nums);
+    }
+
+    int optimised(int[] nums) {
+        int[] arr = new int[nums.length];
+        for(int temp: nums) {
+            if(temp>0) {
+                if(temp>nums.length) continue;
+                else arr[temp-1] = temp;
+            } 
+        }
+        for(int i=0;i<arr.length;i++) {
+            if(arr[i]!=i+1) return i+1;
+        }
+        return arr.length+1;
     }
 
     int usingSorting(int[] nums) {
