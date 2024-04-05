@@ -1,5 +1,25 @@
 class Solution {
     public String makeGood(String s) {
+        // return usingStringBuilderOnly(s);
+        return usingStack(s);
+    }
+
+    String usingStack(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for(int i=0;i<s.length();i++) {
+            if(!stack.isEmpty() && Math.abs(stack.peek()-s.charAt(i))==32) {
+                stack.pop();
+            }
+            else {
+                stack.push(s.charAt(i));
+            }
+        }
+        StringBuilder ans = new StringBuilder();
+        while(!stack.isEmpty()) ans.insert(0, stack.pop());
+        return ans.toString();
+    }
+
+    String usingStringBuilderOnly(String s) {
         StringBuilder ans = new StringBuilder();
         for(int i=0;i<s.length();i++) {
             if(ans.length()==0) {
