@@ -14,11 +14,9 @@ class Solution {
                 }
             }
         }
-        Set<Integer> indexes = new HashSet<>();
-        while(!stack.isEmpty()) indexes.add(stack.pop());
-        StringBuilder ans = new StringBuilder();
-        for(int i=0;i<s.length();i++) {
-            if(!indexes.contains(i)) ans.append(s.charAt(i));
+        StringBuilder ans = new StringBuilder(s);
+        while(!stack.isEmpty()) {
+            ans.deleteCharAt(stack.pop());
         }
         return ans.toString();
     }
