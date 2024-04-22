@@ -16,83 +16,105 @@
  * }
  */
 
-class Pair {
-    List<NestedInteger> nestedList;
-    int index;
-    Pair(List<NestedInteger> nestedList, int index) {
-        this.nestedList = nestedList;
-        this.index = index;
-    }
-}
+// class Pair {
+//     List<NestedInteger> nestedList;
+//     int index;
+//     Pair(List<NestedInteger> nestedList, int index) {
+//         this.nestedList = nestedList;
+//         this.index = index;
+//     }
+// }
 
 public class NestedIterator implements Iterator<Integer> {
 
-    Deque<Pair> stack = new ArrayDeque<>();
+    // Deque<Pair> stack = new ArrayDeque<>();
+
+    List<Integer> flatList = new ArrayList<>();
+    int index = 0;
 
     public NestedIterator(List<NestedInteger> nestedList) {
-        stack.push(new Pair(nestedList, 0));
+        // stack.push(new Pair(nestedList, 0));
+        flatten(nestedList);
+    }  
+
+    private void flatten(List<NestedInteger> nestedList) {
+        for(NestedInteger temp: nestedList) {
+            if(temp.isInteger()) flatList.add(temp.getInteger());
+            else flatten(temp.getList());
+        }
+        return;
     }
 
     @Override
     public Integer next() {
-        while(!stack.isEmpty()) {
-            Pair current = stack.peek();
-            NestedInteger temp = current.nestedList.get(current.index);
-            if(temp.isInteger()) {
-                while(current.index+1==current.nestedList.size()) {
-                    stack.pop();
-                    if(!stack.isEmpty()) current = stack.peek();
-                    else break;
-                }
-                if(!stack.isEmpty()) {
-                    current = stack.pop();
-                    stack.push(new Pair(current.nestedList, current.index+1));
-                }
-                return temp.getInteger();
-            }
-            else {
-                if(!temp.getList().isEmpty()) stack.push(new Pair(temp.getList(), 0));
-                else {
-                    while(current.index+1==current.nestedList.size()) {
-                        stack.pop();
-                        if(!stack.isEmpty()) current = stack.peek();
-                        else break;
-                    }
-                    if(!stack.isEmpty()) {
-                        current = stack.pop();
-                        stack.push(new Pair(current.nestedList, current.index+1));
-                    }
-                }
-            }
-        }
-        return null;
+        return flatList.get(index++);
     }
 
     @Override
     public boolean hasNext() {
-        while(!stack.isEmpty()) {
-            Pair current = stack.peek();
-            NestedInteger temp = current.nestedList.get(current.index);
-            if(temp.isInteger()) {
-                return true;
-            }
-            else {
-                if(!temp.getList().isEmpty()) stack.push(new Pair(temp.getList(), 0));
-                else {
-                    while(current.index+1==current.nestedList.size()) {
-                        stack.pop();
-                        if(!stack.isEmpty()) current = stack.peek();
-                        else break;
-                    }
-                    if(!stack.isEmpty()) {
-                        current = stack.pop();
-                        stack.push(new Pair(current.nestedList, current.index+1));
-                    }
-                }
-            }
-        }
-        return !stack.isEmpty();
+        return index<flatList.size();
     }
+
+    // @Override
+    // public Integer next() {
+    //     while(!stack.isEmpty()) {
+    //         Pair current = stack.peek();
+    //         NestedInteger temp = current.nestedList.get(current.index);
+    //         if(temp.isInteger()) {
+    //             while(current.index+1==current.nestedList.size()) {
+    //                 stack.pop();
+    //                 if(!stack.isEmpty()) current = stack.peek();
+    //                 else break;
+    //             }
+    //             if(!stack.isEmpty()) {
+    //                 current = stack.pop();
+    //                 stack.push(new Pair(current.nestedList, current.index+1));
+    //             }
+    //             return temp.getInteger();
+    //         }
+    //         else {
+    //             if(!temp.getList().isEmpty()) stack.push(new Pair(temp.getList(), 0));
+    //             else {
+    //                 while(current.index+1==current.nestedList.size()) {
+    //                     stack.pop();
+    //                     if(!stack.isEmpty()) current = stack.peek();
+    //                     else break;
+    //                 }
+    //                 if(!stack.isEmpty()) {
+    //                     current = stack.pop();
+    //                     stack.push(new Pair(current.nestedList, current.index+1));
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
+
+    // @Override
+    // public boolean hasNext() {
+    //     while(!stack.isEmpty()) {
+    //         Pair current = stack.peek();
+    //         NestedInteger temp = current.nestedList.get(current.index);
+    //         if(temp.isInteger()) {
+    //             return true;
+    //         }
+    //         else {
+    //             if(!temp.getList().isEmpty()) stack.push(new Pair(temp.getList(), 0));
+    //             else {
+    //                 while(current.index+1==current.nestedList.size()) {
+    //                     stack.pop();
+    //                     if(!stack.isEmpty()) current = stack.peek();
+    //                     else break;
+    //                 }
+    //                 if(!stack.isEmpty()) {
+    //                     current = stack.pop();
+    //                     stack.push(new Pair(current.nestedList, current.index+1));
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return !stack.isEmpty();
+    // }
 }
 
 /**
