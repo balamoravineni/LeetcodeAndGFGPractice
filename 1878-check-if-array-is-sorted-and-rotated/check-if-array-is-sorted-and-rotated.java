@@ -26,8 +26,8 @@ class Solution {
                 }
             }
         }
-        System.out.println(list1Lower + " " + list1Upper);
-        System.out.println(list2Lower + " " + list2Upper);
+        // System.out.println(list1Lower + " " + list1Upper);
+        // System.out.println(list2Lower + " " + list2Upper);
         list2Upper = list2Upper!=null?list2Upper:list2Lower;
         if(list2Lower==null || list2Upper<=list1Lower) return true;
         return false;
