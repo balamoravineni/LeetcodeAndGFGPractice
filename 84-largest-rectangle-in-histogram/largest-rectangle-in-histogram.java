@@ -1,72 +1,100 @@
 class Solution {
     public int largestRectangleArea(int[] heights) {
         // return bruteForce(heights);
-        // return usingMonotoneStack(heights);
-        return optimised(heights);
+        // return twoPassMonotoneStack(heights);
+        return onePassMonotoneStack(heights);
     }
 
-    int optimised(int[] heights) { // TC: O(2*N); SC: O(N)
-        int n = heights.length;
+    int onePassMonotoneStack(int[] heights) {
+        int maxArea = 0;
         Deque<Integer> stack = new ArrayDeque<>();
-        int ans = 0;
-        for(int i=0;i<=n;i++) {
-            while(!stack.isEmpty() && ( i==n || heights[stack.peek()]>heights[i])) {
-                int l = heights[stack.pop()];
+        for(int i=0;i<=heights.length;i++) {
+            while(!stack.isEmpty() && (i==heights.length || heights[stack.peek()]>=heights[i])) {
+                int currIndex = stack.pop();
+                int height = heights[currIndex];
                 int rightSmaller = i;
                 int leftSmaller = stack.isEmpty()?-1:stack.peek();
-                int b = rightSmaller - leftSmaller - 1;
-                ans = Math.max(ans, l*b);
+                int width = rightSmaller-leftSmaller-1;
+                int area = height*width;
+                maxArea = Math.max(maxArea, area);
             }
-            if(i!=n) stack.push(i);
+            stack.push(i);
         }
-        return ans;
+        return maxArea;
     }
 
-    int usingMonotoneStack(int[] heights) { // TC: O(4*N); SC: O(2*N)
-        int n = heights.length;
-        int[] leftSmaller = new int[n];
+    int twoPassMonotoneStack(int[] heights) {
+        //nextLower
+        int[] nextLower = new int[heights.length];
+
         Deque<Integer> stack = new ArrayDeque<>();
-        for(int i=n-1;i>=0;i--) {
-            while(!stack.isEmpty() && heights[stack.peek()]>heights[i]) {
-                leftSmaller[stack.pop()] = i;  
+        for(int i=heights.length-1;i>=0;i--) {
+            while(!stack.isEmpty() && heights[stack.peek()]>=heights[i]) {
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                nextLower[i] = heights.length;
+            }
+            else {
+                nextLower[i] = stack.peek();
             }
             stack.push(i);
         }
-        while(!stack.isEmpty()) leftSmaller[stack.pop()] = -1;
+        // for(int temp: nextLower) {
+        //     System.out.print(temp+ " ");
+        // }
+        // System.out.println();
 
-        // stack.clear();
-        int ans = 0;
-        for(int i=0;i<=n;i++) {
-            while(!stack.isEmpty() && (i==n || heights[stack.peek()]>heights[i])) {
-                int currentIndex = stack.pop();
-                int l = heights[currentIndex];
-                int rightSmaller = i;
-                int rightB = rightSmaller-currentIndex-1;
-                int leftB = currentIndex-leftSmaller[currentIndex]-1;
-                int b = 1 + rightB + leftB;
-                ans = Math.max(ans, l*b);
+        stack.clear();
+        int[] prevLower = new int[heights.length];
+        for(int i=0;i<heights.length;i++) {
+            while(!stack.isEmpty() && heights[stack.peek()]>=heights[i]) {
+                stack.pop();
+            }
+            if(stack.isEmpty()){
+                prevLower[i] = -1;
+            }
+            else {
+                prevLower[i] = stack.peek();
             }
             stack.push(i);
         }
-        return ans;
+        // for(int temp: prevLower) {
+        //     System.out.print(temp+ " ");
+        // }
+        // System.out.println();
+
+        int maxArea = 0;
+        for(int i=0;i<heights.length;i++) {
+            int height = heights[i];
+            int width = nextLower[i] - prevLower[i]-1;
+            int area = height*width;
+            // System.out.print(area + " ");
+            maxArea = Math.max(maxArea, area);
+        }
+        return maxArea;
     }
 
-    int bruteForce(int[] heights) { // TC: O(N^2); SC: O(1)
-        int ans = 0;
-        int n = heights.length;
-        for(int i=0;i<n;i++) {
-            int l = heights[i];
-            int b = 1;
+    int bruteForce(int[] heights) {
+        int maxArea = 0;
+        for(int i=0;i<heights.length;i++) {
+            int prevLower = -1;
             for(int j=i-1;j>=0;j--) {
-                if(heights[j]>=l) b++;
-                else break;
+                if(heights[j]<heights[i]) {
+                    prevLower = j;
+                    break;
+                }       
             }
-            for(int j=i+1;j<n;j++) {
-                if(heights[j]>=l) b++;
-                else break;
+            int nextLower = heights.length;
+            for(int j=i+1;j<heights.length;j++) {
+                if(heights[j]<heights[i]) {
+                    nextLower = j;
+                    break;
+                }       
             }
-            ans = Math.max(ans, l*b);
+            int currArea = heights[i]*(nextLower-prevLower-1);
+            maxArea = Math.max(maxArea,currArea);
         }
-        return ans;
+        return maxArea;
     }
 }
